@@ -1,0 +1,15 @@
+D:\GitHub\Excel_Extractor\Excel_Extractor\Excel_Extractor\bin\Debug\Excel_Extractor.exe.config
+D:\GitHub\Excel_Extractor\Excel_Extractor\Excel_Extractor\obj\Debug\MainWindow.baml
+D:\GitHub\Excel_Extractor\Excel_Extractor\Excel_Extractor\obj\Debug\MainWindow.g.cs
+D:\GitHub\Excel_Extractor\Excel_Extractor\Excel_Extractor\obj\Debug\App.g.cs
+D:\GitHub\Excel_Extractor\Excel_Extractor\Excel_Extractor\obj\Debug\Excel_Extractor_MarkupCompile.cache
+D:\GitHub\Excel_Extractor\Excel_Extractor\Excel_Extractor\obj\Debug\Excel_Extractor.g.resources
+D:\GitHub\Excel_Extractor\Excel_Extractor\Excel_Extractor\obj\Debug\Excel_Extractor.Properties.Resources.resources
+D:\GitHub\Excel_Extractor\Excel_Extractor\Excel_Extractor\obj\Debug\Excel_Extractor.csproj.GenerateResource.Cache
+D:\GitHub\Excel_Extractor\Excel_Extractor\Excel_Extractor\bin\Debug\Excel_Extractor.exe
+D:\GitHub\Excel_Extractor\Excel_Extractor\Excel_Extractor\bin\Debug\Excel_Extractor.pdb
+D:\GitHub\Excel_Extractor\Excel_Extractor\Excel_Extractor\obj\Debug\Excel_Extractor.exe
+D:\GitHub\Excel_Extractor\Excel_Extractor\Excel_Extractor\obj\Debug\Excel_Extractor.pdb
+D:\GitHub\Excel_Extractor\Excel_Extractor\Excel_Extractor\obj\Debug\Excel_Extractor.csprojResolveAssemblyReference.cache
+D:\GitHub\Excel_Extractor\Excel_Extractor\Excel_Extractor\bin\Debug\Extraction.dll
+D:\GitHub\Excel_Extractor\Excel_Extractor\Excel_Extractor\bin\Debug\Extraction.pdb
