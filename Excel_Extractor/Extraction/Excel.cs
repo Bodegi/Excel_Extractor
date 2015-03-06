@@ -20,11 +20,9 @@ namespace Extraction
             using (SpreadsheetDocument document = SpreadsheetDocument.Open(file, true))
             {
                 WorkbookPart wbPart = document.WorkbookPart;
-                int count = 0;
-                foreach (WorksheetPart worksheetpart in wbPart.WorksheetParts)
+                foreach (Sheet sheet in wbPart.Workbook.Descendants<Sheet>())
                 {
-                    Worksheet worksheet = worksheetpart.Worksheet;
-                    string sheetName = worksheet.Descendants<Sheet>().ElementAt(count).Name;
+                    string sheetName = sheet.Name;
                     if(sheetName == "Name")
                     {
 
