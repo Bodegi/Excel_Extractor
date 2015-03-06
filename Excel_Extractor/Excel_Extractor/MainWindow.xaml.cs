@@ -69,7 +69,8 @@ namespace Excel_Extractor
             {
                 if(txtOut.Text != "Select Location for Output")
                 {
-                    new FileSearch(txtDir.Text, txtOut.Text);
+                    List<string> visited = new List<string>();
+                    FileSearch.traversal(txtDir.Text, visited);
                 }
                 else
                 {

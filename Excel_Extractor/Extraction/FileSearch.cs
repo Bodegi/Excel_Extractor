@@ -11,23 +11,32 @@ namespace Extraction
     {
         public FileSearch(string dir, string output)
         {
-            Excel final = new Excel();
-            List<string> lstFilesFound = new List<string>();
+            List<string> visited = new List<string>();
+            traversal(dir, visited);
+        }
+
+        public static void traversal(string dir, List<string> visited)
+        {
             bool isExcel = false;
+            foreach(string f in Directory.GetFiles(dir))
+            {
+                isExcel = extension(f);
+                if(isExcel == true)
+                {
+                    Excel.TabCheck(f);
+                }
+            }
+            visited.Add(dir);
             foreach(string d in Directory.GetDirectories(dir))
             {
-                foreach(string f in Directory.GetFiles(d))
+                if(!visited.Contains(d))
                 {
-                    isExcel = extension(f);
-                    if(isExcel == true)
-                    {
-
-                    }
+                    traversal(d, visited);
                 }
             }
         }
 
-        private bool extension(string file)
+        public static bool extension(string file)
         {
             string ext = "";
             int count = 0;

@@ -2,3 +2,4 @@ D:\GitHub\Excel_Extractor\Excel_Extractor\Extraction\bin\Debug\Extraction.dll
 D:\GitHub\Excel_Extractor\Excel_Extractor\Extraction\bin\Debug\Extraction.pdb
 D:\GitHub\Excel_Extractor\Excel_Extractor\Extraction\obj\Debug\Extraction.dll
 D:\GitHub\Excel_Extractor\Excel_Extractor\Extraction\obj\Debug\Extraction.pdb
+D:\GitHub\Excel_Extractor\Excel_Extractor\Extraction\bin\Debug\DocumentFormat.OpenXml.dll
