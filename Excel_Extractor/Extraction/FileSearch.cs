@@ -4,18 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using DocumentFormat.OpenXml.Spreadsheet;
+using DocumentFormat.OpenXml.Packaging;
 
 namespace Extraction
 {
     public class FileSearch
     {
-        public FileSearch(string dir, string output)
-        {
-            List<string> visited = new List<string>();
-            traversal(dir, visited);
-        }
-
-        public static void traversal(string dir, List<string> visited)
+        public static void traversal(string dir, List<string> visited, SpreadsheetDocument FinalFile)
         {
             bool isExcel = false;
             foreach(string f in Directory.GetFiles(dir))
@@ -23,7 +19,7 @@ namespace Extraction
                 isExcel = extension(f);
                 if(isExcel == true)
                 {
-                    Excel.TabCheck(f);
+                    Excel.TabCheck(f, FinalFile);
                 }
             }
             visited.Add(dir);
@@ -31,7 +27,29 @@ namespace Extraction
             {
                 if(!visited.Contains(d))
                 {
-                    traversal(d, visited);
+                    traversal(d, visited, FinalFile);
+                }
+            }
+        }
+
+        public static void traversal(string dir, List<string> visited, string output)
+        {
+            SpreadsheetDocument FinalFile = SpreadsheetDocument.Create(output, DocumentFormat.OpenXml.SpreadsheetDocumentType.Workbook);
+            bool isExcel = false;
+            foreach (string f in Directory.GetFiles(dir))
+            {
+                isExcel = extension(f);
+                if (isExcel == true)
+                {
+                    Excel.TabCheck(f, FinalFile);
+                }
+            }
+            visited.Add(dir);
+            foreach (string d in Directory.GetDirectories(dir))
+            {
+                if (!visited.Contains(d))
+                {
+                    traversal(d, visited, FinalFile);
                 }
             }
         }

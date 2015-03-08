@@ -14,6 +14,8 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.IO;
 using Extraction;
+using DocumentFormat.OpenXml.Spreadsheet;
+using DocumentFormat.OpenXml.Packaging;
 
 namespace Excel_Extractor
 {
@@ -70,7 +72,7 @@ namespace Excel_Extractor
                 if(txtOut.Text != "Select Location for Output")
                 {
                     List<string> visited = new List<string>();
-                    FileSearch.traversal(txtDir.Text, visited);
+                    FileSearch.traversal(txtDir.Text, visited, txtOut.Text);
                 }
                 else
                 {
