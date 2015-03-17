@@ -1,7 +1,7 @@
 ﻿<Window x:Class="Excel_Extractor.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Excel Extractor" Height="192" Width="381">
+        Title="Excel Extractor" Height="224" Width="392">
     <Grid Margin="0,0,2,0" Height="125" VerticalAlignment="Top">
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
@@ -9,8 +9,9 @@
         </Grid.ColumnDefinitions>
         <TextBox x:Name="txtDir" HorizontalAlignment="Left" Height="23" Margin="10,10,0,0" TextWrapping="Wrap" Text="Select Directory to Search" VerticalAlignment="Top" Width="240" IsEnabled="False"/>
         <Button x:Name="btnBrowseIn" Content="Browse" HorizontalAlignment="Left" Height="23" Margin="255,10,0,0" VerticalAlignment="Top" Width="103" Click="btnBrowseIn_Click"/>
-        <Button x:Name="btnExtract" Content="Extract Excel Data" HorizontalAlignment="Left" Height="47" Margin="10,96,0,-18" VerticalAlignment="Top" Width="136" Click="btnExtract_Click"/>
+        <Button x:Name="btnExtract" Content="Extract Excel Data" HorizontalAlignment="Left" Height="47" Margin="10,132,0,-54" VerticalAlignment="Top" Width="136" Click="btnExtract_Click"/>
         <TextBox x:Name="txtOut" HorizontalAlignment="Left" Height="23" Margin="10,52,0,0" TextWrapping="Wrap" Text="Select Location for Output" VerticalAlignment="Top" Width="240" IsEnabled="False"/>
         <Button x:Name="btnBrowseOut" Content="Browse" HorizontalAlignment="Left" Height="23" Margin="255,52,0,0" VerticalAlignment="Top" Width="103" Click="btnBrowseOut_Click"/>
+        <TextBox x:Name="txtFileName" HorizontalAlignment="Left" Height="23" Margin="10,92,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="240" ToolTip="Enter Name for output file"/>
     </Grid>
 </Window>

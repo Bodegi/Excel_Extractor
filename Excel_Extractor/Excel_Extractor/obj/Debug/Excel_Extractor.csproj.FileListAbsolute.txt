@@ -29,3 +29,4 @@ C:\Users\charles_chalmers\Documents\GitHub\Excel_Extractor\Excel_Extractor\Excel
 C:\Users\charles_chalmers\Documents\GitHub\Excel_Extractor\Excel_Extractor\Excel_Extractor\obj\Debug\Excel_Extractor.Properties.Resources.resources
 C:\Users\charles_chalmers\Documents\GitHub\Excel_Extractor\Excel_Extractor\Excel_Extractor\obj\Debug\Excel_Extractor.csproj.GenerateResource.Cache
 D:\GitHub\Excel_Extractor\Excel_Extractor\Excel_Extractor\bin\Debug\DocumentFormat.OpenXml.dll
+C:\Users\charles_chalmers\Documents\GitHub\Excel_Extractor\Excel_Extractor\Excel_Extractor\bin\Debug\DocumentFormat.OpenXml.dll

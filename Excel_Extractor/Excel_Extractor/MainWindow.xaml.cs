@@ -71,12 +71,20 @@ namespace Excel_Extractor
             {
                 if(txtOut.Text != "Select Location for Output")
                 {
-                    List<string> visited = new List<string>();
-                    FileSearch.traversal(txtDir.Text, visited, txtOut.Text);
+                    if (txtFileName.Text != null)
+                    {
+                        List<string> visited = new List<string>();
+                        string output = txtOut.Text + "\\" + txtFileName.Text + ".XLSX";
+                        FileSearch.traversal(txtDir.Text, visited, output, true);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Please select a name for the completed workbook", "Error");
+                    }
                 }
                 else
                 {
-                    MessageBox.Show("Please select a location to output the final spreadsheet", "Error");
+                    MessageBox.Show("Please select a location to output the final workbook", "Error");
                 }
             }
             else
@@ -84,7 +92,5 @@ namespace Excel_Extractor
                 MessageBox.Show("Please select a directory to search", "Error");
             }
         }
-
-
     }
 }

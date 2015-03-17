@@ -17,34 +17,91 @@ namespace Extraction
         {
         }
 
-        private static void RowExtract(Sheet sheet, SpreadsheetDocument FinalFile)
+        private static void RowExtract(SheetData sheet, string output, SharedStringTablePart sharedstrings)
         {
-            WorkbookPart wbPart = FinalFile.WorkbookPart;
-            WorksheetPart wsPart = wbPart.WorksheetParts.Last();
-            SheetData sheetData = wsPart.Worksheet.Elements<SheetData>().First();
             foreach (Row r in sheet.Elements<Row>())
             {
                 if(r.RowIndex > 10)
                 {
-                    sheetData.Append(r);
-                    FinalRowIndex = FinalRowIndex + 1;
+                    List<string> extractedCells = new List<string>();
+                    extractedCells = CopyCellValues(r, sharedstrings);
+                    InsertCellValues(extractedCells, output);
+
                 }
             }
         }
 
-        public static void TabCheck(string file, SpreadsheetDocument FinalFile)
+        private static List<string> CopyCellValues(Row r, SharedStringTablePart sharedstrings)
+        {
+            List<string> extractedCells = new List<string>();
+
+            foreach (Cell cell in r.Descendants<Cell>())
+            {
+                if (cell.DataType != null && cell.DataType == CellValues.SharedString)
+                {
+                    var ssi = sharedstrings.SharedStringTable.Elements<SharedStringItem>().ElementAt(Int32.Parse(cell.CellValue.InnerText));
+                    extractedCells.Add(ssi.InnerText);
+                }
+                else
+                {
+                    extractedCells.Add(cell.CellValue.InnerText);
+                }
+            }
+            return extractedCells;
+        }
+
+        private static void InsertCellValues(List<string> extractedCells, string output)
+        {
+            using (SpreadsheetDocument FinalFile = SpreadsheetDocument.Open(output, true))
+            {
+                WorkbookPart wbPart = FinalFile.WorkbookPart;
+                WorksheetPart wsPart = wbPart.WorksheetParts.Last();
+                SheetData sheetData = wsPart.Worksheet.Elements<SheetData>().First();
+                Row row = new Row();
+                //Row r = sheetData.Elements<Row>().ElementAt(FinalRowIndex);
+                foreach (string extract in extractedCells)
+                {
+                    Cell cell = new Cell()
+                    {
+                        CellValue = new CellValue(extract),
+                        DataType = CellValues.String
+
+                    };
+                    row.Append(cell);
+                }
+                sheetData.Append(row);
+                wsPart.Worksheet.Save();
+                wbPart.Workbook.Save();
+                FinalFile.Close();
+            }
+        }
+
+        public static void TabCheck(string file, string output)
         {
             using (SpreadsheetDocument document = SpreadsheetDocument.Open(file, true))
             {
-                WorkbookPart wbPart = document.WorkbookPart;
-                foreach (Sheet sheet in wbPart.Workbook.Descendants<Sheet>())
+                WorkbookPart inputWbPart = document.WorkbookPart;
+                int index = 0;
+                foreach (WorksheetPart worksheetpart in inputWbPart.WorksheetParts)
                 {
-                    string sheetName = sheet.Name;
-                    if(sheetName == "Name")
+                    Worksheet worksheet = worksheetpart.Worksheet;
+                    string name = inputWbPart.Workbook.Descendants<Sheet>().ElementAt(index).Name;
+                    foreach (SheetData sheetdata in worksheet.Elements<SheetData>())
                     {
-                        RowExtract(sheet, FinalFile);
+                        RowExtract(sheetdata, output, inputWbPart.SharedStringTablePart);
                     }
+                    index++;
                 }
+                //foreach (Sheet sheet in wbPart.Workbook.Descendants<Sheet>())
+                //{
+                //    //SheetData sheetData = worksheetPart.Worksheet.Elements<SheetData>().First();
+                //    string sheetName = sheet.Name;
+                //    if(sheetName == "Name")
+                //    {
+                //        SheetData data = sheet.Elements<SheetData>();
+                //        RowExtract(data, FinalFile);
+                //    }
+                //}
             }
         }
     }

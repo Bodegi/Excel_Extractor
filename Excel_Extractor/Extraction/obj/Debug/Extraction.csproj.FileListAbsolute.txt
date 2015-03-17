@@ -6,6 +6,5 @@ D:\GitHub\Excel_Extractor\Excel_Extractor\Extraction\bin\Debug\DocumentFormat.Op
 C:\Users\charles_chalmers\Documents\GitHub\Excel_Extractor\Excel_Extractor\Extraction\bin\Debug\Extraction.dll
 C:\Users\charles_chalmers\Documents\GitHub\Excel_Extractor\Excel_Extractor\Extraction\bin\Debug\Extraction.pdb
 C:\Users\charles_chalmers\Documents\GitHub\Excel_Extractor\Excel_Extractor\Extraction\bin\Debug\DocumentFormat.OpenXml.dll
-C:\Users\charles_chalmers\Documents\GitHub\Excel_Extractor\Excel_Extractor\Extraction\obj\Debug\Extraction.csprojResolveAssemblyReference.cache
 C:\Users\charles_chalmers\Documents\GitHub\Excel_Extractor\Excel_Extractor\Extraction\obj\Debug\Extraction.dll
 C:\Users\charles_chalmers\Documents\GitHub\Excel_Extractor\Excel_Extractor\Extraction\obj\Debug\Extraction.pdb

@@ -19,7 +19,7 @@ namespace Extraction
                 isExcel = extension(f);
                 if(isExcel == true)
                 {
-                    Excel.TabCheck(f, FinalFile);
+                    //Excel.TabCheck(f, FinalFile);
                 }
             }
             visited.Add(dir);
@@ -32,26 +32,47 @@ namespace Extraction
             }
         }
 
-        public static void traversal(string dir, List<string> visited, string output)
+        public static void traversal(string dir, List<string> visited, string output, bool firstRun)
         {
-            SpreadsheetDocument FinalFile = SpreadsheetDocument.Create(output, DocumentFormat.OpenXml.SpreadsheetDocumentType.Workbook);
-            bool isExcel = false;
-            foreach (string f in Directory.GetFiles(dir))
+            if (firstRun == true)
             {
-                isExcel = extension(f);
-                if (isExcel == true)
+                Excel.FinalRowIndex = 0;
+                using (SpreadsheetDocument FinalFile = SpreadsheetDocument.Create(output, DocumentFormat.OpenXml.SpreadsheetDocumentType.Workbook))
                 {
-                    Excel.TabCheck(f, FinalFile);
+                    WorkbookPart workbookpart = FinalFile.AddWorkbookPart();
+                    workbookpart.Workbook = new Workbook();
+                    WorksheetPart worksheetPart = workbookpart.AddNewPart<WorksheetPart>();
+                    worksheetPart.Worksheet = new Worksheet(new SheetData());
+                    Sheets sheets = FinalFile.WorkbookPart.Workbook.AppendChild<Sheets>(new Sheets());
+                    Sheet sheet = new Sheet()
+                    {
+                        Id = FinalFile.WorkbookPart.
+                            GetIdOfPart(worksheetPart),
+                        SheetId = 1,
+                        Name = "Extracted_Data"
+                    };
+                    sheets.Append(sheet);
+                    workbookpart.Workbook.Save();
+                    FinalFile.Close();
                 }
             }
-            visited.Add(dir);
-            foreach (string d in Directory.GetDirectories(dir))
-            {
-                if (!visited.Contains(d))
+                bool isExcel = false;
+                foreach (string f in Directory.GetFiles(dir))
                 {
-                    traversal(d, visited, FinalFile);
+                    isExcel = extension(f);
+                    if (isExcel == true)
+                    {
+                        Excel.TabCheck(f, output);
+                    }
                 }
-            }
+                visited.Add(dir);
+                foreach (string d in Directory.GetDirectories(dir))
+                {
+                    if (!visited.Contains(d))
+                    {
+                        traversal(d, visited, output, false);
+                    }
+                }
         }
 
         public static bool extension(string file)
