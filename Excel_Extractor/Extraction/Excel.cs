@@ -21,9 +21,9 @@ namespace Extraction
         {
             foreach (Row r in sheet.Elements<Row>())
             {
-                if(r.RowIndex > 10)
+                if(r.RowIndex > 9)
                 {
-                    List<string> extractedCells = new List<string>();
+                    List<Cell> extractedCells = new List<Cell>();
                     extractedCells = CopyCellValues(r, sharedstrings);
                     InsertCellValues(extractedCells, output);
 
@@ -31,26 +31,47 @@ namespace Extraction
             }
         }
 
-        private static List<string> CopyCellValues(Row r, SharedStringTablePart sharedstrings)
+        private static List<Cell> CopyCellValues(Row r, SharedStringTablePart sharedstrings)
         {
-            List<string> extractedCells = new List<string>();
+            List<Cell> extractedCells = new List<Cell>();
 
-            foreach (Cell cell in r.Descendants<Cell>())
+            for (int i = 0; i <= 21; i++)
             {
+                Cell cell = r.Descendants<Cell>().ElementAt(i);
                 if (cell.DataType != null && cell.DataType == CellValues.SharedString)
                 {
                     var ssi = sharedstrings.SharedStringTable.Elements<SharedStringItem>().ElementAt(Int32.Parse(cell.CellValue.InnerText));
-                    extractedCells.Add(ssi.InnerText);
+                    Cell cellextract = new Cell()
+                    {
+                        CellValue = new CellValue(ssi.InnerText),
+                        DataType = CellValues.String
+                    };
+                    extractedCells.Add(cellextract);
+                }
+                else if (cell.DataType == null)
+                {
+                    Cell cellextract = new Cell()
+                    {
+                        CellValue = new CellValue(""),
+                        DataType = CellValues.String
+                    };
+                    extractedCells.Add(cellextract);
                 }
                 else
                 {
-                    extractedCells.Add(cell.CellValue.InnerText);
+                    Cell cellextract = new Cell()
+                    {
+                        CellValue = new CellValue(cell.CellValue.InnerText),
+                        DataType = cell.DataType
+                    };
+                    extractedCells.Add(cellextract);
                 }
             }
+
             return extractedCells;
         }
 
-        private static void InsertCellValues(List<string> extractedCells, string output)
+        private static void InsertCellValues(List<Cell> extractedCells, string output)
         {
             using (SpreadsheetDocument FinalFile = SpreadsheetDocument.Open(output, true))
             {
@@ -58,16 +79,9 @@ namespace Extraction
                 WorksheetPart wsPart = wbPart.WorksheetParts.Last();
                 SheetData sheetData = wsPart.Worksheet.Elements<SheetData>().First();
                 Row row = new Row();
-                //Row r = sheetData.Elements<Row>().ElementAt(FinalRowIndex);
-                foreach (string extract in extractedCells)
+                foreach (Cell extract in extractedCells)
                 {
-                    Cell cell = new Cell()
-                    {
-                        CellValue = new CellValue(extract),
-                        DataType = CellValues.String
-
-                    };
-                    row.Append(cell);
+                    row.Append(extract);
                 }
                 sheetData.Append(row);
                 wsPart.Worksheet.Save();
@@ -81,27 +95,17 @@ namespace Extraction
             using (SpreadsheetDocument document = SpreadsheetDocument.Open(file, true))
             {
                 WorkbookPart inputWbPart = document.WorkbookPart;
-                int index = 0;
-                foreach (WorksheetPart worksheetpart in inputWbPart.WorksheetParts)
+                foreach (Sheet sheet in inputWbPart.Workbook.Descendants<Sheet>())
                 {
-                    Worksheet worksheet = worksheetpart.Worksheet;
-                    string name = inputWbPart.Workbook.Descendants<Sheet>().ElementAt(index).Name;
-                    foreach (SheetData sheetdata in worksheet.Elements<SheetData>())
+                    string name = sheet.Name;
+                    if (name.Contains("Income Alloc") == true)
                     {
-                        RowExtract(sheetdata, output, inputWbPart.SharedStringTablePart);
+                        string sheetid = sheet.Id;
+                        WorksheetPart wspart = (WorksheetPart)inputWbPart.GetPartById(sheetid);
+                        SheetData sdata = wspart.Worksheet.Elements<SheetData>().FirstOrDefault();
+                        RowExtract(sdata, output, inputWbPart.SharedStringTablePart);
                     }
-                    index++;
                 }
-                //foreach (Sheet sheet in wbPart.Workbook.Descendants<Sheet>())
-                //{
-                //    //SheetData sheetData = worksheetPart.Worksheet.Elements<SheetData>().First();
-                //    string sheetName = sheet.Name;
-                //    if(sheetName == "Name")
-                //    {
-                //        SheetData data = sheet.Elements<SheetData>();
-                //        RowExtract(data, FinalFile);
-                //    }
-                //}
             }
         }
     }
