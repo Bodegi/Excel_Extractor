@@ -25,8 +25,10 @@ namespace Extraction
                 {
                     List<Cell> extractedCells = new List<Cell>();
                     extractedCells = CopyCellValues(r, sharedstrings);
-                    InsertCellValues(extractedCells, output);
-
+                    if (extractedCells.Count > 0)
+                    {
+                        InsertCellValues(extractedCells, output);
+                    }
                 }
             }
         }
@@ -34,10 +36,38 @@ namespace Extraction
         private static List<Cell> CopyCellValues(Row r, SharedStringTablePart sharedstrings)
         {
             List<Cell> extractedCells = new List<Cell>();
-
+            string[] expectedCol = new string[]{"A" , "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V"};
+            int index = 0;
+            string[] extractedCol = new string[22];
             for (int i = 0; i <= 21; i++)
             {
+                if (extractedCells.Count == 22)
+                {
+                    return extractedCells;
+                }
                 Cell cell = r.Descendants<Cell>().ElementAt(i);
+                extractedCol.SetValue(cell.CellReference.InnerText.Substring(0, 1), index);
+                while(extractedCol[index] != expectedCol[index])
+                {
+                    if (index == 0)
+                    {
+                        return extractedCells;
+                    }
+                    Cell cellextract = new Cell()
+                    {
+                        CellValue = new CellValue(""),
+                        DataType = CellValues.String
+                    };
+                    extractedCells.Add(cellextract);
+                    if(index == 21)
+                    {
+                        break;
+                    }
+                    extractedCol.SetValue(extractedCol[index], index + 1);
+                    extractedCol.SetValue(expectedCol[index], index);
+                    index++;
+                }
+
                 if (cell.DataType != null && cell.DataType == CellValues.SharedString)
                 {
                     var ssi = sharedstrings.SharedStringTable.Elements<SharedStringItem>().ElementAt(Int32.Parse(cell.CellValue.InnerText));
@@ -54,8 +84,7 @@ namespace Extraction
                     if (cell.CellFormula != null)
                     {
                         int count = cell.CellFormula.Text.Length;
-                        string test = cell.InnerText.Substring(cell.InnerText.Length - (cell.InnerText.Length - count));
-                        Double cellval = Convert.ToDouble(test);
+                        Double cellval = Convert.ToDouble(cell.InnerText.Substring(cell.InnerText.Length - (cell.InnerText.Length - count)));
                         Cell cellextract = new Cell()
                         {
                             CellValue = new CellValue(cellval.ToString()),
@@ -73,6 +102,7 @@ namespace Extraction
                         extractedCells.Add(cellextract);
                     }
                 }
+                index++;
             }
 
             return extractedCells;

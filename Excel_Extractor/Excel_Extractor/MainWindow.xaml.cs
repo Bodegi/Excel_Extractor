@@ -76,6 +76,7 @@ namespace Excel_Extractor
                         List<string> visited = new List<string>();
                         string output = txtOut.Text + "\\" + txtFileName.Text + ".XLSX";
                         FileSearch.traversal(txtDir.Text, visited, output, true);
+                        MessageBox.Show("Your file can be found here: " + output , "Extraction complete!");
                     }
                     else
                     {
