@@ -48,23 +48,30 @@ namespace Extraction
                     };
                     extractedCells.Add(cellextract);
                 }
-                else if (cell.DataType == null)
-                {
-                    Cell cellextract = new Cell()
-                    {
-                        CellValue = new CellValue(""),
-                        DataType = CellValues.String
-                    };
-                    extractedCells.Add(cellextract);
-                }
+
                 else
                 {
-                    Cell cellextract = new Cell()
+                    if (cell.CellFormula != null)
                     {
-                        CellValue = new CellValue(cell.CellValue.InnerText),
-                        DataType = cell.DataType
-                    };
-                    extractedCells.Add(cellextract);
+                        int count = cell.CellFormula.Text.Length;
+                        string test = cell.InnerText.Substring(cell.InnerText.Length - (cell.InnerText.Length - count));
+                        Double cellval = Convert.ToDouble(test);
+                        Cell cellextract = new Cell()
+                        {
+                            CellValue = new CellValue(cellval.ToString()),
+                            DataType = CellValues.Number
+                        };
+                        extractedCells.Add(cellextract);
+                    }
+                    else
+                    {
+                        Cell cellextract = new Cell()
+                        {
+                            CellValue = new CellValue(cell.InnerText),
+                            DataType = CellValues.String
+                        };
+                        extractedCells.Add(cellextract);
+                    }
                 }
             }
 
